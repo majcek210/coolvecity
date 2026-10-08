@@ -2,7 +2,9 @@ import { config } from 'dotenv';
 config();
 
 
-const requiredEnvVars : string[] = [];
+const requiredEnvVars : string[] = [
+    "DISCORD_TOKEN"
+];
 
 for (const key of requiredEnvVars) {
     if (!process.env[key]) {
@@ -12,6 +14,7 @@ for (const key of requiredEnvVars) {
 
 const env = Object.freeze({
     DEBUG: process.env.DEBUG === 'true',
+    DISCORD_TOKEN: process.env.DISCORD_TOKEN
 } as const); //so we make it like this to prevent acidental changes later on.
 
 export default env;
