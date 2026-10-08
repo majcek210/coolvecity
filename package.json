@@ -1,0 +1,30 @@
+{
+  "name": "coolvecity",
+  "version": "1.0.0",
+  "description": "The discord bot like a opensource mee6 alternative",
+  "keywords": [
+    "bot",
+    "discord",
+    "mee6",
+    "opensource"
+  ],
+  "homepage": "https://github.com/majcek210/coolvecity#readme",
+  "bugs": {
+    "url": "https://github.com/majcek210/coolvecity/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/majcek210/coolvecity.git"
+  },
+  "license": "ISC",
+  "author": "majcek210",
+  "type": "commonjs",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "discord.js": "^14.27.0",
+    "dotenv": "^18.0.6"
+  }
+}
