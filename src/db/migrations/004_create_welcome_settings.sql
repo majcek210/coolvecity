@@ -1,0 +1,9 @@
+CREATE TABLE welcome_settings (
+    guild_id VARCHAR(20) PRIMARY KEY,
+    enabled BOOLEAN NOT NULL DEFAULT FALSE,
+    channel_id VARCHAR(20),
+    message VARCHAR(120),
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (guild_id) REFERENCES guilds(id) ON DELETE CASCADE
+);

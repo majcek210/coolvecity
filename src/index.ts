@@ -2,7 +2,7 @@ import env from "./utils/env.js";
 import Client, { GatewayIntentBits } from "mjx-client";
 import { runMigrations } from "./db/handler.js";
 
-const client = new Client({ debug: true, intents: [GatewayIntentBits.Guilds] })
+const client = new Client({ debug: true, intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers] })
   .setName("Coolvecity")
   .setToken(env.DISCORD_TOKEN)
   .setDebug(env.DEBUG);

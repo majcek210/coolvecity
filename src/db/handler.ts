@@ -28,13 +28,19 @@ export async function runMigrations() {
                 [file]
             );
 
-            if (existing.lenght > 0) {
+            if (existing.length > 0) {
                 console.log(`Migration ${file} already executed, skipping.`);
                 continue;
             }
             console.log(`Executing migration ${file}...`);
+            const sql = await readFile(path.join(migrationsDir, file), "utf-8")
+            await connection.query(sql)
+            await connection.query(
+                "INSERT INTO schema_migrations (name) VALUES (?)",
+                [file]
+            );
         }
-    } catch (error) {
-        console.error("Error running migrations:", error);
+    } finally {
+        connection.release()
     }
 }
