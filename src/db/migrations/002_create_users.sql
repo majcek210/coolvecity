@@ -1,0 +1,5 @@
+CREATE TABLE user (
+    id VARCHAR(20) PRIMARY KEY,
+    username VARCHAR(32),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
