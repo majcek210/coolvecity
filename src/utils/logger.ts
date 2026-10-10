@@ -15,11 +15,15 @@ export default class logger {
   }
 
   static warn(...messages: unknown[]): void {
-    console.log(this.format(messages.map(fmt).join(" "), "WARN"));
+    console.warn(this.format(messages.map(fmt).join(" "), "WARN"));
   }
   static debug(...messages: unknown[]): void {
     if (!env.DEBUG) return;
     console.log(this.format(messages.map(fmt).join(" "), "DEBUG"));
+  }
+
+  static error(...messages: unknown[]): void {
+    console.error(this.format(messages.map(fmt).join(" "), "ERROR"));
   }
 
 }

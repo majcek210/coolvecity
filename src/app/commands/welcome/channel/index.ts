@@ -13,14 +13,7 @@ export default {
             .setRequired(true)
         ),
     async execute(interaction) {
-        const channel = await interaction.options.getChannel("channel");
-
-        const channelId = channel?.id
-
-        if (!channelId) {
-            await interaction.reply({content: "Something went wrong.", flags: MessageFlags.Ephemeral})
-            return
-        }
+        const channel = interaction.options.getChannel("channel", true);
         
         await setWelcomeChannel(interaction.guildId!, channel.id)
 

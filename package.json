@@ -22,11 +22,10 @@
   "main": "dist/index.js",
   "scripts": {
     "dev": "tsx src/index.ts",
-    "build": "tsc",
+    "build": "tsc && node -e \"require('node:fs').cpSync('src/db/migrations','dist/db/migrations',{recursive:true})\"",
     "start": "node dist/index.js"
   },
   "dependencies": {
-    "discord.js": "^14.27.0",
     "dotenv": "^18.0.6",
     "mariadb": "^3.5.4",
     "mjx-client": "^2.1.0"

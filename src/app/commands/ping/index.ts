@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from "discord.js";
+import { SlashCommandBuilder } from "mjx-client";
 import type { Command } from "mjx-client";
 
 export default {

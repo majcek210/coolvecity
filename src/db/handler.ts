@@ -1,14 +1,18 @@
-import { db } from "./connection.js";
+import { dbConfig } from "./connection.js";
+import mariadb from "mariadb"
 import { readdir, readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
+import logger  from "../utils/logger.js"
 
 const migrationsDir = fileURLToPath(
     new URL("./migrations", import.meta.url)
 )
 
 export async function runMigrations() {
-    const connection = await db.getConnection();
+    const connection = await mariadb.createConnection({ ...dbConfig, multipleStatements: true });
+
+    
 
     try {
         await connection.query(`
@@ -29,10 +33,10 @@ export async function runMigrations() {
             );
 
             if (existing.length > 0) {
-                console.log(`Migration ${file} already executed, skipping.`);
+                logger.log(`Migration ${file} already executed, skipping.`);
                 continue;
             }
-            console.log(`Executing migration ${file}...`);
+            logger.log(`Executing migration ${file}...`);
             const sql = await readFile(path.join(migrationsDir, file), "utf-8")
             await connection.query(sql)
             await connection.query(
@@ -41,6 +45,6 @@ export async function runMigrations() {
             );
         }
     } finally {
-        connection.release()
+        await connection.end()
     }
 }

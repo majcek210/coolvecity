@@ -13,7 +13,7 @@ export default {
             .setRequired(true)
         ),
     async execute(interaction) {
-        const isEnabled = (await interaction.options.getBoolean("enabled")) === true
+        const isEnabled = interaction.options.getBoolean("enabled", true)
         
         await setWelcomeEnabled(interaction.guildId!, isEnabled)
 

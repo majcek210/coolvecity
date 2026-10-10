@@ -30,12 +30,12 @@ export default {
         
         const messageLabel = new LabelBuilder()
             .setLabel("Enter your custom message.")
-            .setDescription("{user} = user tag, {numb} = join number, {serv} = server name")
+            .setDescription("{user} = user mention, {numb} = join number, {serv} = server name")
             .setTextInputComponent(messageInput)
         
 
         
-        await messageModal.addLabelComponents(messageLabel);
+        messageModal.addLabelComponents(messageLabel);
 
         await interaction.showModal(messageModal)
 
