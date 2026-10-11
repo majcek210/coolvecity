@@ -2,6 +2,7 @@ import { MessageFlags } from "mjx-client";
 import { SlashCommandSubcommandBuilder } from "mjx-client"
 import type { Subcommand } from "mjx-client"
 import { setWelcomeEnabled } from "../../../../db/welcome.js";
+import { replyEmbed, embeds } from "../../../../utils/embedSets.js"
 
 export default {
     data: new SlashCommandSubcommandBuilder()
@@ -19,6 +20,10 @@ export default {
 
         const content = isEnabled && "Welcome system is now enabled! Make sure you have the welcome channel set for it to work!" || "Welcome system was disabled."
 
-        await interaction.reply({content: content, flags: MessageFlags.Ephemeral})
+        await replyEmbed(
+                    interaction,
+                    embeds.success("Sucess", content),
+                    { ephemeral: true}
+            )
     }
 } satisfies Subcommand;

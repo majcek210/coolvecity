@@ -1,5 +1,6 @@
 import { SlashCommandBuilder, MessageFlags, guildOnly, requirePermissions, PermissionFlagsBits } from "mjx-client";
 import type { Command } from "mjx-client"
+import { replyEmbed, embeds } from "../../../utils/embedSets.js"
 
 export default {
     data: new SlashCommandBuilder()
@@ -25,17 +26,30 @@ export default {
 
         // ai wrote this regex
         if (!/^\d{17,20}$/.test(userId)) {
-            await interaction.reply({ content: "That doesn't look like a user ID.", flags: MessageFlags.Ephemeral })
+            
+            await replyEmbed(
+                interaction,
+                embeds.warning("Check again!", "That doesn't look like a user ID."),
+                { ephemeral: true}
+            )
             return
         }
 
         try {
             await interaction.guild.members.unban(userId, reason)
         } catch(err) {
-            await interaction.reply({ content: "Something went wrong while trying to unban this user! Are they actually banned?", flags: MessageFlags.Ephemeral })
+            await replyEmbed(
+                interaction,
+                embeds.error("Something went wrong while trying to unban this user! Are they actually banned?"),
+                { ephemeral: true}
+            )
             return
         }
-        await interaction.reply({ content: `<@${userId}> was unbanned`, flags: MessageFlags.Ephemeral})
+        await replyEmbed(
+                interaction,
+                embeds.success("Sucess", `<@${userId}> was unbanned.`),
+                { ephemeral: true}
+        )
 
 
     }

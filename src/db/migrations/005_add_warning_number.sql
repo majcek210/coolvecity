@@ -1,4 +1,4 @@
-ALTER TABLE warnings ADD COLUMN number INT NULL;
+ALTER TABLE warnings ADD COLUMN IF NOT EXISTS number INT NULL;
 
 UPDATE warnings w
 JOIN (

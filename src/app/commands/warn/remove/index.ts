@@ -1,6 +1,7 @@
 import { SlashCommandSubcommandBuilder, MessageFlags } from "mjx-client";
 import type { Subcommand } from "mjx-client";
 import { removeWarning } from "../../../../db/moderations.js";
+import { replyEmbed, embeds } from "../../../../utils/embedSets.js";
 
 export default {
     data: new SlashCommandSubcommandBuilder()
@@ -17,6 +18,12 @@ export default {
         const removed = await removeWarning(interaction.guildId!, number)
 
         const content = removed ? `Warning #${number} was removed.` : `There is no warning #${number}`
-        await interaction.reply({ content: content, flags: MessageFlags.Ephemeral });
+
+        await replyEmbed(
+            interaction,
+            removed ? embeds.success("Warning removed", content) : embeds.error(content),
+            { ephemeral: true}
+        )
+    
     }
 } satisfies Subcommand

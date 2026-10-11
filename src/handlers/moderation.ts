@@ -1,4 +1,4 @@
-import type { GuildMember, User } from "mjx-client";
+import type { Embed, EmbedBuilder, GuildMember, User } from "mjx-client";
 
 
 // we check here so we can acualy do actions on the user
@@ -16,9 +16,13 @@ export function checkTarget(moderator: GuildMember, user: User, target: GuildMem
     return null;
 }
 
-export async function notifyUser(user: User, content: string): Promise<boolean> {
+export async function notifyUser(user: User, content: string, embed?: EmbedBuilder): Promise<boolean> {
     try {
-        await user.send(content);
+        if (embed) {
+            await user.send({content: content, embeds: [embed]});
+        } else {
+            await user.send({content: content});
+        }
         return true;
     } catch {
         return false

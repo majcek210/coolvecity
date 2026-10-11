@@ -1,6 +1,7 @@
 import { SlashCommandSubcommandBuilder, ChannelType,MessageFlags } from "mjx-client";
 import type { Subcommand } from "mjx-client";
 import { setWelcomeChannel } from "../../../../db/welcome.js"
+import { replyEmbed, embeds } from "../../../../utils/embedSets.js"
 
 export default {
     data: new SlashCommandSubcommandBuilder()
@@ -17,7 +18,12 @@ export default {
         
         await setWelcomeChannel(interaction.guildId!, channel.id)
 
-        await interaction.reply({content: `Welcome channel set to: ${channel}`, flags: MessageFlags.Ephemeral});
+        await replyEmbed(
+            interaction,
+            embeds.success("Sucess", `Welcome channel set to: ${channel}`),
+            { ephemeral: true}
+        )
+
 
     }
 } satisfies Subcommand;

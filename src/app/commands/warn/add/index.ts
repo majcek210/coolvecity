@@ -3,6 +3,7 @@ import type { Subcommand } from "mjx-client"
 
 import { addWarning, countWarnings } from "../../../../db/moderations.js"
 import { checkTarget, notifyUser } from "../../../../handlers/moderation.js"
+import { replyEmbed, embeds } from "../../../../utils/embedSets.js";
 
 export default {
     data: new SlashCommandSubcommandBuilder()
@@ -27,20 +28,38 @@ export default {
         const problem = checkTarget(interaction.member, user, interaction.options.getMember("user"));
 
         if (problem) {
-            await interaction.reply({ content: problem, flags: MessageFlags.Ephemeral })
+            await replyEmbed(
+                interaction,
+                embeds.error(problem),
+                { ephemeral: true}
+            )
             return
         }
 
         const number = await addWarning(interaction.guildId, user, interaction.user, reason);
         const total = await countWarnings(interaction.guildId, user.id);
 
-        const notified = await notifyUser(user, `You were warned in **${interaction.guild.name}**.\nReason: ${reason}`)
+        let wasNotified = false;
 
-        await interaction.reply({
-            content: `Warned ${user} (warning #${number}, ${total} in total).\nReason: ${reason}`
-                + (notified ? "" : "\nI couldn't DM them about it."),
-            allowedMentions: { parse: [] }
-        });
+        //try here bc dms might be off
+        try {
+            await user.send({
+                embeds: [
+                    embeds.warning(
+                        "You have been warned!",
+                        `You were warned in **${interaction.guild.name}**.\nReason: ${reason}`
+                    )
+                ]
+            })
+            wasNotified = true
+        } catch {
+             // if his dms were off/ or we cant dm them
+        }
+        await replyEmbed(
+                interaction,
+                embeds.success("User was warned.", `Warned ${user} (warning #${number}, ${total} in total).\nReason: ${reason}` + (wasNotified ? "" : "\nI couldn't DM them about it.")),
+                { ephemeral: true }
+        )
 
     }
 } satisfies Subcommand

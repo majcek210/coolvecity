@@ -1,6 +1,7 @@
 import { SlashCommandSubcommandBuilder, MessageFlags } from "mjx-client";
 import type { Subcommand } from "mjx-client";
 import { clearWarnings } from "../../../../db/moderations.js";
+import { replyEmbed,embeds } from "../../../../utils/embedSets.js"
 
 export default {
     data: new SlashCommandSubcommandBuilder()
@@ -15,10 +16,9 @@ export default {
         const user = interaction.options.getUser("user", true);
         const removed = await clearWarnings(interaction.guildId!, user.id);
 
-        await interaction.reply({
-            content: `Removed ${removed} warning(s) from ${user}`,
-            flags: MessageFlags.Ephemeral,
-            allowedMentions: { parse: []}
-        })
+        await replyEmbed(
+            interaction,
+            embeds.success("Warnings cleared",`Removed ${removed} warning(s) from ${user}`)
+        )
     }
 } satisfies Subcommand

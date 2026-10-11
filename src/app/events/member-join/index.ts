@@ -14,12 +14,13 @@ export default {
             const channel = member.guild.channels.cache.get(settings.channelId);
             if (!channel ||!channel.isSendable()) return;
 
-            await channel.send(
-                settings.message
+            await channel.send({
+                content: settings.message
                     .replaceAll("{user}", `${member}`)
                     .replaceAll("{numb}", String(member.guild.memberCount))
-                    .replaceAll("{serv}", member.guild.name)
-            )
+                    .replaceAll("{serv}", member.guild.name),
+                allowedMentions: { users: [member.id] }
+            })
 
         } catch (error) {
             logger.warn(`Could not send the welcome msg in ${member.guild.id}`, error);
